@@ -103,6 +103,9 @@ app.use((req, res, next) => {
 //   res.send(newUser);
 // });
 
+app.get("/", (req, res) => {
+  res.redirect("/listings")
+});
 // Routes
 app.use("/listings", listingRoutes);
 app.use("/listings/:id/reviews", reviewRoutes);
