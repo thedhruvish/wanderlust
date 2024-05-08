@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV != "production") {
+  require("dotenv").config();
+}
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -7,6 +11,7 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const Review = require("./models/review.js");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -16,10 +21,11 @@ const listingRoutes = require("./rotues/listing.js");
 const reviewRoutes = require("./rotues/reviews.js");
 const userRoutes = require("./rotues/user.js");
 
-const MONG_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const MONG_URL = process.env.DB_URL || "mongodb://127.0.0.1:27017/wanderlust";
 main()
   .then(() => {
     console.log("Connected to MongoDB");
+    console.log(MONG_URL);
   })
   .catch((err) => {
     console.log(err);
@@ -36,8 +42,22 @@ app.use(methodOverrde("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+const SECRETS = process.env.SECRET || "This is my secret";
+
+const stroge = MongoStore.create({
+  mongoUrl: MONG_URL,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret: SECRETS,
+  },
+});
+stroge.on("error", function (e) {
+  console.log("session store error", e);
+});
+
 const sessionOption = {
-  secret: "This is my secret",
+  store: stroge,
+  secret: SECRETS,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -46,10 +66,11 @@ const sessionOption = {
     httpOnly: true,
   },
 };
+
 // root route
-app.get("/", (req, res) => {
-  res.render("./listings/root.ejs");
-});
+// app.get("/", (req, res) => {
+//   res.render("/listings/");
+// });
 
 //midal ware
 app.use(session(sessionOption));
@@ -87,14 +108,16 @@ app.use("/listings", listingRoutes);
 app.use("/listings/:id/reviews", reviewRoutes);
 app.use("/", userRoutes);
 
+//404
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page is Not Found"));
+  // res.send("404");
 });
 
 // Error Handling
 app.use((err, req, res, next) => {
   let { statusCode = 404, message = "SomeThing Worg" } = err;
-  console.log(err);
+  // console.log(err);
   res.status(statusCode).render("error.ejs", { message });
 });
 

@@ -1,14 +1,8 @@
-const express = require("express");
-const router = express.Router({ mergeParams: true });
 const User = require("../models/user.js");
-const passport = require("passport");
-const { savaUrlredirect } = require("../middelware.js");
-
-router.get("/singup", (req, res) => {
+module.exports.renderSingupFrom = (req, res) => {
   res.render("./user/singup.ejs");
-});
-
-router.post("/singup", async (req, res) => {
+};
+module.exports.singup = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     const newUser = new User({
@@ -28,27 +22,18 @@ router.post("/singup", async (req, res) => {
     req.flash("error", e.message);
     res.redirect("/singup");
   }
-});
-
-router.get("/login", (req, res) => {
+};
+module.exports.renderLoginForm = (req, res) => {
   res.render("./user/login.ejs");
-});
-router.post(
-  "/login",
-  savaUrlredirect,
-  passport.authenticate("local", {
-    failureFlash: true,
-    failureRedirect: "/login",
-  }),
-  (req, res) => {
-    req.flash("success", "Welcome back to wanderlust");
-    const redirectUrl = res.locals.redirectUrl || "/listings";
-    res.redirect(redirectUrl);
-  }
-);
+};
 
-// logout on User
-router.get("/logout", (req, res, next) => {
+module.exports.login = (req, res) => {
+  req.flash("success", "Welcome back to wanderlust");
+  const redirectUrl = res.locals.redirectUrl || "/listings";
+  res.redirect(redirectUrl);
+};
+
+module.exports.logout = (req, res, next) => {
   req.logout((err) => {
     if (err) {
       return next(err);
@@ -56,6 +41,4 @@ router.get("/logout", (req, res, next) => {
     req.flash("success", "Goodbye!");
     res.redirect("/listings");
   });
-});
-
-module.exports = router;
+};
