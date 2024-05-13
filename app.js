@@ -67,11 +67,6 @@ const sessionOption = {
   },
 };
 
-// root route
-// app.get("/", (req, res) => {
-//   res.render("/listings/");
-// });
-
 //midal ware
 app.use(session(sessionOption));
 app.use(flash());
@@ -93,6 +88,13 @@ app.use((req, res, next) => {
   next();
 });
 
+// root route
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
+app.get("/demo",(req,res) => {
+  res.render("./includes/demo.ejs")
+})
 // /?demoUser
 // app.get("/demoUser", async (req, res) => {
 //   const fakerUser = new User({
@@ -103,13 +105,12 @@ app.use((req, res, next) => {
 //   res.send(newUser);
 // });
 
-app.get("/", (req, res) => {
-  res.redirect("/listings")
-});
 // Routes
 app.use("/listings", listingRoutes);
 app.use("/listings/:id/reviews", reviewRoutes);
 app.use("/", userRoutes);
+
+
 
 //404
 app.all("*", (req, res, next) => {
