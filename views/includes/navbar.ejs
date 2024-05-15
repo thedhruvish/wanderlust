@@ -1,4 +1,13 @@
 <style>
+  *{
+    margin: 0 ;
+    box-sizing: border-box;
+  }
+  .navbar {
+    padding: 0 !important;
+    margin: 0;
+  }
+
   .search-btn {
     background-color: #fe424d;
     color: #fff;
@@ -8,7 +17,7 @@
   }
 
   .search-btn:hover {
-    background-color: #fe424d;
+    background-color: #ff707a !important;
     color: #fff;
 
   }
@@ -25,79 +34,79 @@
 
   }
 
-  .show {
-    background-color: rgb(227, 221, 210);
+  .bg-color-white {
+    background-color: #fff;
+  }
+
+  .btn-danger {
+    background-color: red !important;
+    color: white !important;
+  }
+
+  .btn-info {
+    background-color: #31D2F2 !important;
+    color: white !important;
+  }
+
+  nav {
+    z-index: 1;
+  }
+
+  @media(max-width:767px) {
+    .ul-gb {
+      background-color: #fff;
+    }
+
+    .input-search {
+      width: 50%;
+
+    }
+
+    .ul-item {
+      width: 50%;
+      align-items: center;
+      align-self: center;
+    }
+
+    .explore {
+      display: none;
+    }
+
   }
 </style>
 
-<!-- <nav class="navbar navbar-expand-md bg-body-tertiary border-bottom sticky-top navbar-expand-lg">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link" href="/listings/">Explore</a>
-      </div>
-      <div class="navbar-nav ms-auto">
-        <form class="d-flex" role="search">
-          <input class="form-control me-2 search-inp" type="search" placeholder="Search Destinations">
-          <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search
-          </button>
-        </form>
-      </div>
-      <div class="navbar-nav ms-auto me-5">
-        <a class="nav-link" href="/listings/new">Air ban You Home</a>
-        <% if(!currentUser) { %>
-          <a class="btn btn-outline-secondary me-3" href="/login">Login</a>
-          <a class="btn btn-info " href="/singup">Resigter</a>
-          <% } else { %>
-            <a class="btn btn-danger " href="/logout">Logout</a>
-            <% } %>
-      </div>
+
+<nav class="navbar navbar-expand-md bg-color-white sticky-top border-bottom">
+  <a class="navbar-brand ms-4" href="/listings"><i class="fa-regular fa-compass"></i></a>
+  <button class="navbar-toggler mb-3 me-3 mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#btn">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse ul-gb fs-5 align-items-center bg-color-white " id="btn">
+    <div class="nav-item me-auto mb-2 ul-item me-2 explore">
+      <a class="nav-link" href="/listings/">Explore</a>
     </div>
-</nav> -->
-
-<!-- new -->
-
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
-      aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-      <!-- <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-          </form> -->
-
-      <form class="d-flex ms-auto me-auto" role="search">
-        <input class="form-control ms-7 search-inp" type="search" placeholder="Search Destinations" aria-label="Search">
-        <button class="btn search-btn" type="submit">Search</button>
-      </form>
-
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
-        <li class="nav-item">
-          <a class="btn btn-success nav-link " aria-current="page" href="/listings/new">Air ban You Home</a>
+    <form class="d-flex ms-auto me-auto input-search " role="search">
+      <input class="form-control ms-7 search-inp " type="search" placeholder="Search Destinations" aria-label="Search">
+      <button class="btn search-btn ms-2" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+    </form>
+    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 mt-1 ">
+      <li class="nav-item mb-2 ul-item me-3">
+        <a class="btn nav-link btn-outline-success" aria-current="page" href="/listings/new">Air ban You Home</a>
+      </li>
+      <% if(!currentUser) { %>
+        <li class="nav-item mb-2 ul-item me-5 ">
+          <a class="nav-link btn  btn-outline-primary" aria-current="page" href="/login">Login</a>
         </li>
-        <% if(!currentUser) { %>
-          <li class="nav-item">
-            <a class="nav-link btn btn-outline-secondary" aria-current="page" href="/login">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link btn btn-info" href="/singup">Resigter</a>
-          </li>
-          <% } else { %>
-            <li class="nav-item">
-              <a class="nav-link btn btn-danger btn" href="/logout">Logout</a>
-            </li>
-            <% } %>
-      </ul>
 
-    </div>
+        <li class="nav-item mb-2 ul-item me-5 ">
+          <a class="nav-link btn btn-info" href="/singup">Resigter</a>
+        </li>
+        <% } else { %>
+          <li class="nav-item mb-2 ul-item me-5 ">
+            <a class="nav-link btn btn-danger" href="/logout"> &nbsp;&nbsp;<i
+                class="fa-solid fa-power-off"></i>&nbsp;&nbsp; Logout</a>
+          </li>
+          <% } %>
+    </ul>
   </div>
 </nav>
